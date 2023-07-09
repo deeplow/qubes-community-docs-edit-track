@@ -1,0 +1,5 @@
+I know this must seem like a ridiculous question to those of you who have been using Qubes for a while... I've just finished installing it yesterday and cannot for the life of me figure out how to "start a template". I'm able to start a qube based off a template, though when I go to install a piece of software (ie vscode), when I close the terminal qube and open a new one, the package is no longer installed. 
+
+As per the Qubes docs, I understand that installing anything directly into a qube is temporary and will not persist between cube sessions, however I seem to be unable to determine how to "Start a template".  I've searched for things along the lines of "How to start template in qubes os" and "install software in template qubes os", however I keep getting instructions on how to install a NEW template. 
+
+Can someone please break it down for a simpleton like myself? Or refer me to a tutorial that goes through things step by step? Much appreciated in advance.

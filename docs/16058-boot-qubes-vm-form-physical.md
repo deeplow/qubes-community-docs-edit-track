@@ -1,0 +1,1 @@
+is it possible to boot a standalone qubes using a physical drive with a os alredy installed and not from the default virtual drive ?

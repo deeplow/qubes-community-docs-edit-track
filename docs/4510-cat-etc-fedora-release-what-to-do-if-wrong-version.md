@@ -1,0 +1,5 @@
+In the docs: https://www.qubes-os.org/doc/template/fedora/upgrade/ - This guide is designed to help upgrading to a new version of a VM template (e.g. Fedora), such as upgrading from fedora-32 to fedora-33. When the repository upgrade process fails - one check is follow this instruction:
+Check that you are on the correct (new) Fedora release.
+[user@fedora-<new> ~]$ cat /etc/fedora-release
+
+On check in the new version terminal - in this case user@fedora-33 using cli above the results is: 32. What is a newbie supposed to do to get "on the correct (new) Fedora release" as instructed? This kind of instruction leaves the newbie hanging in space. I could not find an answer in the docs or using a search engine. Maybe there exists instructions to do that - "on the correct...version," but why is this so hard to find? If it is something so obvious, then there ought to be an easy way to access the steps required to get on it. It really is better to include those steps either close to that specific check or put some kind of footnote navigation near there or a link to a source.

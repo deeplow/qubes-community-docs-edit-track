@@ -1,0 +1,4 @@
+        Hello Everyone, Recently I have just downloaded the Qubes OS and I am loving the features so far.
+        I downloaded it on my fourth partition to test it, but the Grub Boot menu seems to only recognize Qubes OS and does not display an option to boot into my Windows Partition (which I have files I'd like to transport and wanna keep on the side just incase)
+        I was wondering how I could fix this, whether it'd be getting Qubes boot menu to recognize the OS or direct booting the Windows partition from any terminal (Legacy Boot Terminal or Dom 0 terminal) I appreciate anyone taking the time to read and/or help out.
+        I believe I should mention that I did use thirdparty software to make a 5th swap partition for Qubes and I am unsure if that broke my other partitions since I was originally limited to 4.

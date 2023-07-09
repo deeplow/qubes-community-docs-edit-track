@@ -1,0 +1,2 @@
+Hi all,
+I have tried so many things now to run Android APKs on QubesOS - and it is really complicated. Did anyone succeed in running APKs in WAYDROID or any other emulator without too much tweaking? And if so would you mind sharing how?

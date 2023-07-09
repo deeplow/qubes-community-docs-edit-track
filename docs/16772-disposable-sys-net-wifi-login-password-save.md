@@ -1,0 +1,7 @@
+I just tried to make my disposable sys-net remember my WiFi password. Embarrassingly, it took me hours of fiddling to actually get it to work. I first tried to follow the below instructions by sven but couldn't get "Network Manager" to show up in the tray. I tried to use the nmcli tool and it complained about not network-manager not existing or some bull. I then opened up the qube settings for the dvm template and clicked on the services tab. I selected "network manager" and then hoped for the best. Still no beans. I then restarted the computer and the pci devices were not set up like I had them before the reboot. Odd. The restart must have reset something, so I fixed the pci allocations and then booted the dvm template. I then got the network manager tray icon and set my wifi password. I moved the pci devices back to normal and booted my sys-net. sys-net grabbed onto my WiFi like greased lightning and connected automatically. Nice.
+
+https://forum.qubes-os.org/t/qubes-users-disposable-sys-net-wifi-login/5023/4?u=litter_box
+
+Had problems after reboot again. Device name seems to increment when going from the dvm template to sys-net. Checked sys-net for the device name it was using, then booted the dvm template as is (Still with no pci devices attached) and set the device name under "edit connections" to what it said in sys-net. Rebooted sys-net and it works like a charm (Hopefully for the last time). Even got it working in a minimal template.
+
+Not really an organized guide, but you get the gist of it.

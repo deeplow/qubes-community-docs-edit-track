@@ -1,0 +1,3 @@
+I recently [wrote how to use fossil in dom0 and sync it with a remote repository,](https://dataswamp.org/~solene/2023-06-17-qubes-os-git-bundle.html) but I was very curious to figure how to achieve this in git without using network (and nobody cares about fossil). It's possible using git-bundle by exchanging artifacts using qvm-run :slight_smile: 
+
+https://dataswamp.org/~solene/2023-06-17-qubes-os-git-bundle.html

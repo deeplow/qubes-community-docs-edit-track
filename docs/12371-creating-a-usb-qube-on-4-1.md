@@ -1,0 +1,1 @@
+How does one do this? I checked the docs but i kept getting locked out with sys.usb failing on startup. Does the 4.1 section help? If so, i may need a little clarification. :confused:

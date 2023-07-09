@@ -1,0 +1,1 @@
+hello, i am a new user of this operating system and any other than windowns in fact...the main reason to use this program has been for crypto coins.... i don't know anything about terminals and i wanted to know how to install electrum in qubes os step by step...thanks in advance

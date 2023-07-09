@@ -1,0 +1,2 @@
+I have been unable to build my own kali template for a long time now, I have looked at many of the guides but found no information on this.
+Also tried to build archlinux template but it gives error of key mismatch, namely error about absence of public key of one of gpg keys.

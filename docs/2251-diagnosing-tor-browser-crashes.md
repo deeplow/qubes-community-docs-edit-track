@@ -1,0 +1,2 @@
+For anyone having issues with Tor Browser crashing because of memory usage or a buggy javascript I came across some handy browser tools to help diagnose and remedy freezing or crashing. Open a browser tab and 
+enter about:support; if you look under "application basics" there is a section that deals with memory use and performance (about:memory and about:performance) this will even give you a task manager where individual tabs can be killed as well.

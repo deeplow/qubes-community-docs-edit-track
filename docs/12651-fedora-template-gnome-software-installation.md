@@ -1,0 +1,1 @@
+When going through "Gnome Software" installation which is a default menu entry for the Fedora template, no software such as "wxmaxima" or "stellarium" can be installed. How to use that default menu entry?

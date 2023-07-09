@@ -1,0 +1,2 @@
+Hello all, I need a bit of help here. I’m new to qubes and I need this environment for testing, could you guys please explain to me how I can setup a windows 10 qube that’s routed through whonixgw, and optionally has a socks5 option for windows? 
+Thanks

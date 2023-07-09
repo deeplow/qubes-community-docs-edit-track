@@ -1,0 +1,1 @@
+I am having difficulty updating disposable whonix qubes vmApp. It is based on whonix-ws-15. I go into the Qube Manager and update the ws-15 template and restart it. Now I have no issues getting a non-disposable whonix qubes' update to be persistent. However with a disposable one every time I start it, the green arrow shows up on the upper right corner downloading an update.

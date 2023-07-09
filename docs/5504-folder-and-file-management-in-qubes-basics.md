@@ -1,0 +1,2 @@
+Hello, my dears
+i'm brand new to using qubes and would like to deal with it a bit. I recently wanted to download Electrum Wallet, which also worked, but unfortunately I can't start Electrum because I don't even know where to find it. Is that why there is a page somewhere where you can learn how to use qubes from scratch? I am also interested in a VPN that then has access to several VMs in qubes. Where can I get that knowledge?
