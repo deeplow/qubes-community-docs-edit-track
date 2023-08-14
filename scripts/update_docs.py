@@ -18,6 +18,7 @@ DOCS_DIR = "docs"  # Stored in "docs/"
 DOCS_CATEGORY_ID = 14
 FORUM_DOMAIN = "https://forum.qubes-os.org"
 
+subcategories_cache = {}
 
 def discourse_get_topic(topic_id: str):
     url_topic = f"{FORUM_DOMAIN}/t/{topic_id}.json"
@@ -86,6 +87,11 @@ def update_guide(topic_id: str):
 
 def get_subcategory_ids(parent_category_id: int):
     """Returns the subcategory IDs and the parent's ID"""
+
+    global subcategories_cache
+    if subcategories_cache.get(parent_category_id):
+        return list(subcategories_cache[parent_category_id])
+
     api_endpoint = f"{FORUM_DOMAIN}/categories.json"
     logging.info(f"Fetching {api_endpoint}")
     r = requests.get(api_endpoint)
@@ -121,8 +127,13 @@ def remove_old_guides():
         basename = os.path.basename(file)
         topic_id = re.findall(r"\d+", basename)[0]
         topic_json = discourse_get_topic(topic_id)
-        category_id = topic_json["category_id"]
-        if category_id not in get_subcategory_ids(DOCS_CATEGORY_ID):
+        category_id = topic_json.get("category_id")
+        if category_id is None:
+            logging.info((
+                "Topic may have been moved to some private category and is "
+                "no longer accessible. Let's remove it, then."))
+            os.remove(file)
+        elif category_id not in get_subcategory_ids(DOCS_CATEGORY_ID):
             logging.info(f"Found a misplaced non-guide... removing '{file}'")
             os.remove(file)
 
