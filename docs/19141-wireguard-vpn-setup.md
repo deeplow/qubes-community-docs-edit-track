@@ -15,6 +15,7 @@ Menu » Qubes Tools » Create Qubes VM:
 - <kbd>advanced</kbd> (tab) » Provides network access to other qubes
 
 And then <kbd>OK</kbd>. Then the qube settings window should show up (procced to the next step).
+
 ### Enable service “network-manager” in sys-vpn
 ![add|690x64, 75%](upload://2r8q1bkftaD2vQhv6yWrswwhllL.png)
 

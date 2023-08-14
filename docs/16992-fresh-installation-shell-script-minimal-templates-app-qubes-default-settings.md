@@ -1,4 +1,4 @@
-# Qubes OS - Fresh Install - Minimal templates
+# Qubes OS - Fresh install - Minimal templates
 ---
 > :warning: **Caution:**
 > Minimal templates are intended for advanced users.
@@ -30,7 +30,7 @@ As an advanced topic, some knowledge is assumed.
   - sed ( `'s/foo/bar/g'`, `'/^foo.*bar/ d'` )
 [/details]
 
-### description
+### Description
 A customizable shell script to automate your installation.
 
 This is a recipe, not a tutorial / course.
@@ -38,7 +38,7 @@ Take some or all of it. Modify it to your needs.
 
 This script is a one-file format (single `.sh` file).
 
-### initial setup
+### Initial setup
 [qubes-os.org/doc/installation-guide/#initial-setup](https://qubes-os.org/doc/installation-guide/#initial-setup)
 
 [details="Select these checkboxes."]
@@ -53,7 +53,7 @@ This script is a one-file format (single `.sh` file).
   - Create default application qubes (personal, work, untrusted, vault)
 [/details]
 
-### usage
+### Usage
   - disable hibernate and suspend during the script execution.
     `apps menu > system tools > power manager`
 
@@ -66,7 +66,7 @@ This script is a one-file format (single `.sh` file).
       > :warning: **Caution**:
       > The code you run in dom0 **MUST** be understood.
 
-      ``` bash
+      ```bash
       file_name=qubes_fresh_install.sh
       qvm-run --pass-io sys-usb "
           cat /home/user/$file_name" > $HOME/$file_name
@@ -94,14 +94,29 @@ This script is a one-file format (single `.sh` file).
     [/details]
 
 
-## Update
+## Configuration
+---
+```bash
+#!/usr/bin/bash
+
+fresh_install=true
+
+os_name=fedora
+os_release=$(qvm-template list --available \
+    | grep -Eo "$os_name.*minimal" \
+    | tail -n 1 \
+    | grep -Eo '[0-9]+')
+
+install_cmd='dnf -y --setopt=install_weak_deps=false install'
+```
+
+
+## Updates
 ---
 [qubes-os.org/doc/how-to-update/#command-line-interface](https://qubes-os.org/doc/how-to-update/#command-line-interface)
 
 ```bash
-#!/usr/bin/bash
-
-if true; then ## update
+if [[ $fresh_install == true ]]; then ## updates
 echo 'updating templates ...'
 sudo qubesctl --skip-dom0 --templates state.sls update.qubes-vm
 
@@ -111,20 +126,7 @@ qvm-start sys-usb
 
 echo 'updating dom0 ...'
 sudo qubesctl --show-output state.sls update.qubes-dom0
-fi ## end: update
-```
-
-
-## Configuration
----
-```bash
-os_name=fedora
-os_release=$(qvm-template list --available \
-    | grep -Eo "$os_name.*minimal" \
-    | tail -n 1 \
-    | grep -Eo '[0-9]+')
-
-install_cmd='dnf -y --setopt=install_weak_deps=false install'
+fi ## end: updates
 ```
 
 
@@ -263,7 +265,7 @@ run_cmd ()
 ```
 [/details]
 
-### 1. base
+### Base
 Install the minimal template, clone it to a custom name and update it.
 ```bash
 base_tpl=$os_name-$os_release-min
@@ -273,6 +275,7 @@ qvm-template install $min_tpl
 qvm-clone $min_tpl $base_tpl
 qvm-remove --force $min_tpl
 
+echo "updating $base_tpl ..."
 sudo qubesctl --skip-dom0 --targets=$base_tpl state.sls update.qubes-vm
 ```
 [details="theme & icons"]
@@ -310,7 +313,7 @@ qvm-shutdown --wait $base_tpl
 qvm-clone $base_tpl $base_tpl-bak
 ```
 
-### 2. creation
+### Creation
 [details="install_packages ()"]
 ```bash
 install_packages ()
@@ -419,7 +422,7 @@ echo 'setting templates ...'
 > All these settings, despite belonging to a fresh install script, **are not Qubes OS specific**.
 > There are already many resources about all of them across the web.
 
-### 1. settings
+### Settings
 [details="gnome mimeapps"]
 ```bash
 set_disable_gnome_mimeapps ()
@@ -709,7 +712,7 @@ set_office_suite ()
             local window_opt=ooSetupFactoryWindowAttributes
             local window_size="0,0,$2,$3;5;0,0,$2,$3;"
             add_key_value $app_cfg $window_opt $window_size
-            set_default_window_size ${@:4}
+            $FUNCNAME ${@:4}
         fi
     }
 
@@ -1332,7 +1335,7 @@ set_zsh ()
 ```
 [/details]
 
-### 2. customization
+### Customizations
 [details="handle_custom_settings ()"]
 ```bash
 handle_custom_settings ()
@@ -1457,16 +1460,16 @@ custom_settings $work_tpl \
 > Only for new template release (e.g. fedora XX -> fedora XX + 1).
 
 ```bash
-if false; then ## new tpl release
+if [[ $fresh_install != true ]]; then ## new tpl release
 echo 'switching old templates with new ones ...'
 ```
 
-### 1. switch templates
+### Switch templates
 ```bash
 qvm-shutdown --all --wait
 ```
 [details="Change the templates."]
-If you only have a USB keyboard/mouse, you may want to switch the `sys-dvm`
+If you only have a USB keyboard/mouse, you may want to switch `sys-dvm`
 after confirming that the new `sys-usb-dvm` works as expected.
 ```bash
 change_template ()
@@ -1474,7 +1477,7 @@ change_template ()
     if [[ $# -ne 0 ]]
     then
         qvm-prefs $1 template $2
-        change_template ${@:3}
+        $FUNCNAME ${@:3}
     fi
 }
 change_template $(qvm-ls --field class,name,template \
@@ -1492,7 +1495,7 @@ remove_old_template ()
     if [[ $# -ne 0 ]]
     then
         qvm-remove --force $1
-        remove_old_template ${@:2}
+        $FUNCNAME ${@:2}
     fi
 }
 remove_old_template $(qvm-ls --field class,name \
@@ -1510,8 +1513,8 @@ qvm-start \
     sys-firewall-dvm
 ```
 
-### 2. update settings
-Update the settings where needed.
+### Update settings
+Update the settings if / where needed.
 [details="set_new_web_browser_settings"]
 ```bash
 set_new_web_browser_settings ()
@@ -1538,7 +1541,7 @@ fi ## end: new tpl release
 ---
 [qubes-os.org/doc/disposable-customization/](https://qubes-os.org/doc/disposable-customization/)
 ```bash
-if true; then ## fresh install
+if [[ $fresh_install == true ]]; then ## fresh install
 echo 'creating disposable templates ...'
 ```
 [details="create_dvm_template ()"]
@@ -1554,7 +1557,7 @@ create_dvm_template ()
             --property netvm='' \
             --property template_for_dispvms=true
         qvm-features $1 appmenus-dispvm $4
-        create_dvm_template "${@:5}"
+        $FUNCNAME "${@:5}"
     fi
 }
 ```
@@ -1596,8 +1599,6 @@ create_named_dvm ()
 {
     if [[ $# -ne 0 ]]
     then
-        local vmode=pvh
-        if [[ $5 -eq 0 ]]; then vmode=hvm; fi
         echo "    $1 ..."
         qvm-create $1 --template $2 --class DispVM --label $3 \
             --property autostart=$4 \
@@ -1605,10 +1606,10 @@ create_named_dvm ()
             --property memory=$6 \
             --property netvm=$7 \
             --property provides_network=$8 \
-            --property vcpus=1 \
-            --property virt_mode=$vmode
+            --property vcpus=1
         qvm-features $1 appmenus-dispvm ''
-        create_named_dvm "${@:9}"
+        [[ $9 == hvm ]] && qvm-prefs $1 virt_mode hvm
+        $FUNCNAME "${@:10}"
     fi
 }
 ```
@@ -1621,12 +1622,12 @@ printer_dvm=printer-dvm
 ```
 ```bash
 create_named_dvm \
-    $net_dvm      $sys_dvm   red    'true'  0    448 ''       'true'  \
-    $fw_dvm       $sys_dvm   green  'true'  2048 512 $net_dvm 'true'  \
-    $usb_dvm      $sys_dvm   red    'true'  0    320 ''       'false' \
-    banking-dvm   $web_dvm   gray   'false' 2048 512 $fw_dvm  'false' \
-    mail-web-dvm  $web_dvm   purple 'false' 2048 512 $fw_dvm  'false' \
-    $printer_dvm  $print_dvm red    'false' 2048 512 $fw_dvm  'false'
+    $net_dvm      $sys_dvm   red    'true'  0    768 ''       'true'  hvm \
+    $fw_dvm       $sys_dvm   green  'true'  0    768 $net_dvm 'true'  ''  \
+    $usb_dvm      $sys_dvm   red    'true'  0    512 ''       'false' hvm \
+    banking-dvm   $web_dvm   gray   'false' 2048 512 $fw_dvm  'false' '' \
+    mail-web-dvm  $web_dvm   purple 'false' 2048 512 $fw_dvm  'false' '' \
+    $printer_dvm  $print_dvm red    'false' 2048 512 $fw_dvm  'false' ''
 ```
 [details="Set the "default clock" and "default update" qubes."]
 ```bash
@@ -1677,7 +1678,7 @@ create_regular_appvm ()
             --property netvm=$7 \
             --property vcpus=$8
         qvm-features $1 appmenus-dispvm ''
-        create_regular_appvm "${@:9}"
+        $FUNCNAME "${@:9}"
     fi
 }
 ```
@@ -1857,7 +1858,7 @@ code_editor_entry='
 ```
 [/details]
 
-### 1. settings
+### Settings
 [details="filetype association"]
 ```bash
 set_disable_mimetype ()
@@ -1908,7 +1909,7 @@ set_wifi_connection ()
 ```
 [/details]
 
-### 2. customization
+### Customizations
 ```bash
 custom_settings $sys_dvm \
     set_wifi_connection
@@ -2169,7 +2170,7 @@ add_panel_launcher ()
         local launcher_dir=$HOME/.local/share/applications/
         local launcher_file=org.qubes-os.vm.$1.$2
         xfce4-panel --add=launcher $launcher_dir/$launcher_file
-        add_panel_launcher ${@:3}
+        $FUNCNAME ${@:3}
     fi
 }
 add_panel_launcher \
@@ -2283,9 +2284,12 @@ Good luck.
 
 
 [details="latest edit"]
-- fix typo in switch templates (excepted -> expected)
-- change libreoffice icon theme to colibre_dark_svg
-- set gnome interface color-scheme to prefer-dark
+- add an argument to explicitly set hvm mode in create_named_dvm()
+- adjust memory of system qubes (usb, net & firewall)
+- use $FUNCNAME for recursive functions
+- update some header titles (use sentence case and remove numbered list)
+- move configuration before update
+- add config variable $fresh_install (toggle for fresh install or new tpl release)
 [/details]
 
 <div data-theme-toc="true"> </div>
