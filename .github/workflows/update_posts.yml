@@ -1,0 +1,29 @@
+---
+
+name: Open PR if update available
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run at midnight
+
+defaults:
+  run:
+    working-directory: 'docs'
+
+jobs:
+  check-updates-availalbe:
+    name: "Update docs"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: 'docs'
+      - name: "Get latest posts"
+        run: python3 ./scripts/update_docs.py
+      - name: "Git: add changes and push"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add docs/
+          git config user.email pr_bot@noreply.github.com
+          git commit -m "update posts"
+          git push
