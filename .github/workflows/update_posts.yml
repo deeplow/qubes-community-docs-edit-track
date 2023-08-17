@@ -1,10 +1,9 @@
 ---
 
-name: Open PR if update available
+name: Update posts
 on:
   schedule:
     - cron: '0 0 * * *'  # Run at midnight
-
 defaults:
   run:
     working-directory: 'docs'
@@ -25,5 +24,6 @@ jobs:
         run: |
           git add docs/
           git config user.email pr_bot@noreply.github.com
+          git config user.name pr_bot
           git commit -m "update posts"
           git push
